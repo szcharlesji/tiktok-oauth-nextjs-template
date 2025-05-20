@@ -6,8 +6,8 @@ import NextAuthProvider from "./context/NextAuthProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TikTok NextAuth PoC",
-  description: "Proof of Concept for TikTok OAuth with NextAuth.js",
+  title: "TikTok Auth.js",
+  description: "TikTok OAuth with Auth.js",
 };
 
 export default function RootLayout({
