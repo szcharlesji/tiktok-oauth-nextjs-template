@@ -1,9 +1,8 @@
 import NextAuth from "next-auth";
 import TikTok from "next-auth/providers/tiktok";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "./app/generated/prisma"; // Adjusted path based on your schema output
 
-const prisma = new PrismaClient();
+import prisma from "./lib/prisma";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -17,8 +16,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    // JWT and Session callbacks might need slight adjustments based on how data is structured by v5 providers.
-    // The general idea of populating the token and then the session remains the same.
     async jwt({ token, user, account, profile }) {
       if (account && user) {
         token.accessToken = account.access_token;
@@ -26,7 +23,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.accessTokenExpires = account.expires_at
           ? Date.now() + account.expires_at * 1000
           : undefined;
-        token.id = user.id; // user.id should be correctly mapped by the adapter/provider
+        token.id = user.id;
 
         // If you need to include raw TikTok profile data in the token:
         const tiktokProfile = profile as any; // Cast carefully or define a type for TikTok profile v5
@@ -64,7 +61,4 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return session;
     },
   },
-  secret: process.env.AUTH_SECRET, // Automatically picked up if AUTH_SECRET env var is set
-  trustHost: true, // Set if behind a proxy, or use AUTH_TRUST_HOST=true env var
-  debug: process.env.NODE_ENV === "development",
 });
