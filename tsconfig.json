@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/auth/tiktok/route.ts.bak", "app/api/auth/me/route.ts.bak", "app/api/auth/callback/route.ts.bak"],
   "exclude": ["node_modules"]
 }
